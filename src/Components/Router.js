@@ -1,8 +1,9 @@
 import React from "react";
 import { HashRouter, Route, Redirect, Switch } from "react-router-dom";
-import Search from "Routes/Search";
-import TV from "Routes/TV";
 import Home from "Routes/Home";
+import TV from "Routes/TV";
+import Search from "Routes/Search/SearchContainer";
+import Detail from "Routes/Detail";
 import Header from "Components/Header";
 
 export default () => (
@@ -15,6 +16,8 @@ export default () => (
         {/* exact 를 넣지않으면 tv로 시작하는 아무주소가 다 매칭됨 */}
         <Route path="/tv" exact component={TV} />
         <Route path="/search" exact component={Search} />
+        <Route path="/movie/:id" exact component={Detail} />
+        <Route path="/show/:id" exact component={Detail} />
         <Redirect from="*" to="/"></Redirect>
         {/* 일치하는 주소 없으면 Redirect 부분 작동  */}
       </Switch>
