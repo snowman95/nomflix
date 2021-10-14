@@ -1,13 +1,19 @@
 import React from "react";
-import { HashRouter, Route, Redirect, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  HashRouter,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
 import Home from "Routes/Home";
-import TV from "Routes/TV";
+import TV from "Routes/TV/TVContainer";
 import Search from "Routes/Search/SearchContainer";
-import Detail from "Routes/Detail";
+import Detail from "Routes/Detail/DetailContainer";
 import Header from "Components/Header";
 
 export default () => (
-  <HashRouter>
+  <Router>
     <>
       <Header />
       <Switch>
@@ -18,9 +24,9 @@ export default () => (
         <Route path="/search" exact component={Search} />
         <Route path="/movie/:id" exact component={Detail} />
         <Route path="/show/:id" exact component={Detail} />
-        <Redirect from="*" to="/"></Redirect>
-        {/* 일치하는 주소 없으면 Redirect 부분 작동  */}
+        <Redirect from="*" to="/" />
+        {/* 일치하는 주소가 하나도 없으면 Redirect 부분 작동  */}
       </Switch>
     </>
-  </HashRouter>
+  </Router>
 );
