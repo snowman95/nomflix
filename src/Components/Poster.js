@@ -2,23 +2,69 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-const Container = styled.div``;
+import noPoster from "../assets/noPosterSmall.jpg";
+const Container = styled.div`
+  font-size: 12px;
+`;
 
-const ImageContainer = styled.div``;
+const Image = styled.div`
+  background-image: url(${(props) => props.bgUrl});
+  height: 180px;
+  border-radius: 4px;
+  background-size: cover;
+  background-position: center center;
+  transition: opacity 0.1s linear;
+`;
+const Rating = styled.span`
+  bottom: 5px;
+  right: 5px;
+  position: absolute;
+  opacity: 0;
+`;
 
-const Image = styled.div``;
+const ImageContainer = styled.div`
+  margin-bottom: 5px;
+  position: relative;
+  &:hover {
+    ${Image} {
+      opacity: 0.3;
+    }
+    ${Rating} {
+      opacity: 1;
+    }
+  }
+`;
 
-const Rating = styled.span``;
+const Title = styled.span`
+  margin-bottom: 3px;
 
-const Title = styled.span``;
+  width: 100%;
+  font-size: 12px;
+  line-height: 14px;
+  /* 글자 튀어나가는 부분 깔끔하게 처리 */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 
-const Year = styled.span``;
+  display: block;
+`;
+
+const Year = styled.span`
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.5);
+`;
 
 const Poster = ({ id, imageUrl, title, rating, year, isMovie = false }) => (
   <Link to={isMovie ? `/movie/${id}` : `/show/${id}`}>
     <Container>
       <ImageContainer>
-        <Image bgUrl={imageUrl} />
+        <Image
+          bgUrl={
+            imageUrl
+              ? `https://image.tmdb.org/t/p/w300${imageUrl}`
+              : `${noPoster}`
+          }
+        />
         <Rating>
           <span rol="img" aria-label="rating">
             ⭐
