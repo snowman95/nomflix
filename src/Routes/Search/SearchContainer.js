@@ -6,23 +6,34 @@ export default class extends React.Component {
   state = {
     movieResults: null,
     tvResults: null,
-    searchTerm: "code",
+    searchTerm: "",
+    loading: false,
     error: null,
-    loading: true,
   };
-  componentDidMount() {
-    this.handleSubmit();
-  }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { searchTerm } = this.state;
+    if (searchTerm !== "") {
+      this.searchByTerm();
+    }
+  };
+  updateTerm = (event) => {
+    const {
+      target: { value },
+    } = event;
+    this.setState({ searchTerm: value });
+  };
   searchByTerm = async () => {
-    const { serachTerm } = this.state;
+    const { searchTerm } = this.state;
     try {
       const {
         data: { results: movieResults },
-      } = await moviesApi.search(serachTerm);
+      } = await moviesApi.search(searchTerm);
+      console.log(movieResults);
       const {
         data: { results: tvResults },
-      } = await tvApi.search(serachTerm);
+      } = await tvApi.search(searchTerm);
       this.setState({
         movieResults,
         tvResults,
@@ -35,13 +46,6 @@ export default class extends React.Component {
     }
   };
 
-  handleSubmit = () => {
-    const { searchTerm } = this.state;
-    if (searchTerm !== "") {
-      this.searchByTerm();
-    }
-  };
-
   render() {
     const { movieResults, tvResults, searchTerm, error, loading } = this.state;
     return (
@@ -51,6 +55,7 @@ export default class extends React.Component {
         searchTerm={searchTerm}
         error={error}
         loading={loading}
+        updateTerm={this.updateTerm}
         handleSubmit={this.handleSubmit}
       />
     );
