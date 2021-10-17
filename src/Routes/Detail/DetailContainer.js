@@ -23,21 +23,18 @@ export default class extends React.Component {
       },
       history: { push },
     } = this.props;
+
+    let result = "null";
     const { isMovie } = this.state;
     const parseId = parseInt(id);
     if (isNaN(parseId)) {
       return push("/");
     }
-    let result = null;
     try {
       if (isMovie) {
-        ({
-          data: { result },
-        } = await moviesApi.movieDetail(parseId));
+        ({ data: result } = await moviesApi.movieDetail(parseId));
       } else {
-        ({
-          data: { result },
-        } = await tvApi.showDetail(parseId));
+        ({ data: result } = await tvApi.showDetail(parseId));
       }
     } catch {
       this.setState({ error: "Can't find anything" });

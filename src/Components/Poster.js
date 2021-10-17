@@ -54,14 +54,59 @@ const Year = styled.span`
   color: rgba(255, 255, 255, 0.5);
 `;
 
-const Poster = ({ id, imageUrl, title, rating, year, isMovie = false }) => (
-  <Link to={isMovie ? `/movie/${id}` : `/show/${id}`}>
+const Poster = ({
+  id,
+  backdropImgUrl,
+  posterImgUrl,
+  title,
+  rating,
+  year,
+  date,
+  runtime,
+  overview,
+  isMovie = false,
+}) => (
+  <Link
+    to={
+      isMovie
+        ? {
+            pathname: `/movie/${id}`,
+            state: {
+              id,
+              backdropImgUrl,
+              posterImgUrl,
+              title,
+              rating,
+              year,
+              date,
+              runtime,
+              overview,
+              isMovie,
+            },
+          }
+        : {
+            pathname: `/show/${id}`,
+            state: {
+              id,
+              backdropImgUrl,
+              posterImgUrl,
+              title,
+              rating,
+              year,
+              date,
+              runtime,
+              overview,
+              isMovie,
+            },
+          }
+    }
+  >
     <Container>
       <ImageContainer>
         <Image
           bgUrl={
-            imageUrl
-              ? `https://image.tmdb.org/t/p/w300${imageUrl}`
+            posterImgUrl
+              ? `https://image.tmdb.org/t/p/w300${posterImgUrl}`
               : `${noPoster}`
           }
         />
@@ -80,9 +125,11 @@ const Poster = ({ id, imageUrl, title, rating, year, isMovie = false }) => (
 
 Poster.propTypes = {
   id: PropTypes.number.isRequired,
-  imageUrl: PropTypes.string,
+  backdropImgUrl: PropTypes.string,
+  posterImgUrl: PropTypes.string,
   title: PropTypes.string.isRequired,
   rating: PropTypes.number,
   year: PropTypes.string,
+  overview: PropTypes.string,
 };
 export default Poster;
