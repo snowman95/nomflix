@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import Loader from "Components/Loader";
 import noPoster from "../../assets/noPosterSmall.jpg";
+import Helmet from "react-helmet";
+import Message from "Components/Message";
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -67,55 +69,69 @@ const Overview = styled.p`
   width: 50%;
 `;
 
-const DetailPresenter = ({ result, loading, error }) =>
-  loading ? (
-    <Loader />
-  ) : (
-    <Container>
-      <Backdrop
-        bgImage={
-          result
-            ? `https://image.tmdb.org/t/p/original${result.backdrop_path}`
-            : `${noPoster}`
-        }
-      ></Backdrop>
-      <Content>
-        <Cover
+const DetailPresenter = ({ result, loading, error }) => (
+  <>
+    <Helmet>
+      <title>Loading | Nomflix</title>
+    </Helmet>
+    {loading ? (
+      <Loader />
+    ) : error ? (
+      <Message color="#e74c3c" text={error} />
+    ) : (
+      <Container>
+        <Helmet>
+          <title>
+            {result.title ? result.title : result.original_title} | Nomflix
+          </title>
+        </Helmet>
+        <Backdrop
           bgImage={
             result
-              ? `https://image.tmdb.org/t/p/original${result.poster_path}`
+              ? `https://image.tmdb.org/t/p/original${result.backdrop_path}`
               : `${noPoster}`
           }
-        />
-        <Data>
-          <Title>{result.title ? result.title : result.original_title}</Title>
-          <ItemContainer>
-            <Item>
-              {result.release_date
-                ? result.release_date.substring(0, 4)
-                : result.first_air_date.substring(0, 4)}
-            </Item>
-            <Divider>▪</Divider>
+        ></Backdrop>
+        <Content>
+          <Cover
+            bgImage={
+              result
+                ? `https://image.tmdb.org/t/p/original${result.poster_path}`
+                : `${noPoster}`
+            }
+          />
+          <Data>
+            <Title>{result.title ? result.title : result.original_title}</Title>
+            <ItemContainer>
+              <Item>
+                {result.release_date
+                  ? result.release_date.substring(0, 4)
+                  : result.first_air_date.substring(0, 4)}
+              </Item>
+              <Divider>▪</Divider>
 
-            <Item>
-              {result.runtime ? result.runtime : result.episode_run_time[0]} min
-            </Item>
-            <Divider>▪</Divider>
+              <Item>
+                {result.runtime ? result.runtime : result.episode_run_time[0]}{" "}
+                min
+              </Item>
+              <Divider>▪</Divider>
 
-            <Item>
-              {result.genres &&
-                result.genres.map((genre, index) =>
-                  index === result.genres.length - 1
-                    ? genre.name
-                    : `${genre.name} / `
-                )}
-            </Item>
-          </ItemContainer>
-          <Overview>{result.overview}</Overview>
-        </Data>
-      </Content>
-    </Container>
-  );
+              <Item>
+                {result.genres &&
+                  result.genres.map((genre, index) =>
+                    index === result.genres.length - 1
+                      ? genre.name
+                      : `${genre.name} / `
+                  )}
+              </Item>
+            </ItemContainer>
+            <Overview>{result.overview}</Overview>
+          </Data>
+        </Content>
+      </Container>
+    )}
+  </>
+);
 
 DetailPresenter.propTypes = {
   result: PropTypes.object,
