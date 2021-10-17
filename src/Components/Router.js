@@ -13,7 +13,7 @@ import Detail from "Routes/Detail/DetailContainer";
 import Header from "Components/Header";
 
 export default () => (
-  <Router>
+  <HashRouter>
     <>
       <Header />
       <Switch>
@@ -28,5 +28,5 @@ export default () => (
         {/* 일치하는 주소가 하나도 없으면 Redirect 부분 작동  */}
       </Switch>
     </>
-  </Router>
+  </HashRouter>
 );
