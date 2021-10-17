@@ -54,18 +54,7 @@ const Year = styled.span`
   color: rgba(255, 255, 255, 0.5);
 `;
 
-const Poster = ({
-  id,
-  backdropImgUrl,
-  posterImgUrl,
-  title,
-  rating,
-  year,
-  date,
-  runtime,
-  overview,
-  isMovie = false,
-}) => (
+const Poster = ({ id, posterImgUrl, title, rating, year, isMovie = false }) => (
   <Link
     to={
       isMovie
@@ -73,14 +62,10 @@ const Poster = ({
             pathname: `/movie/${id}`,
             state: {
               id,
-              backdropImgUrl,
               posterImgUrl,
               title,
               rating,
               year,
-              date,
-              runtime,
-              overview,
               isMovie,
             },
           }
@@ -88,14 +73,10 @@ const Poster = ({
             pathname: `/show/${id}`,
             state: {
               id,
-              backdropImgUrl,
               posterImgUrl,
               title,
               rating,
               year,
-              date,
-              runtime,
-              overview,
               isMovie,
             },
           }

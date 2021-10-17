@@ -20,13 +20,10 @@ const HomePresenter = ({ nowPlaying, popular, upcoming, loading, error }) =>
             <Poster
               key={movie.id}
               id={movie.id}
-              backdropImgUrl={movie.backdrop_path}
               posterImgUrl={movie.poster_path}
               title={movie.original_title}
               rating={movie.vote_average}
               year={movie.release_date?.substring(0, 4)}
-              genres={movie.genres}
-              overview={movie.overview}
               isMovie={true}
             />
           ))}
@@ -39,13 +36,10 @@ const HomePresenter = ({ nowPlaying, popular, upcoming, loading, error }) =>
             <Poster
               key={movie.id}
               id={movie.id}
-              backdropImgUrl={movie.backdrop_path}
               posterImgUrl={movie.poster_path}
               title={movie.original_title}
               rating={movie.vote_average}
               year={movie.release_date?.substring(0, 4)}
-              genres={movie.genres}
-              overview={movie.overview}
               isMovie={true}
             />
           ))}
@@ -58,13 +52,10 @@ const HomePresenter = ({ nowPlaying, popular, upcoming, loading, error }) =>
             <Poster
               key={movie.id}
               id={movie.id}
-              backdropImgUrl={movie.backdrop_path}
               posterImgUrl={movie.poster_path}
               title={movie.original_title}
               rating={movie.vote_average}
               year={movie.release_date?.substring(0, 4)}
-              genres={movie.genres}
-              overview={movie.overview}
               isMovie={true}
             />
           ))}

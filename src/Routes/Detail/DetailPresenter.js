@@ -67,48 +67,55 @@ const Overview = styled.p`
   width: 50%;
 `;
 
-const DetailPresenter = ({ result, loading, error }) => loading;
-// ? (
-//   <Loader />
-// ) : (
-//   <Container>
-//     <Backdrop
-//       bgImage={
-//         result
-//           ? `https://image.tmdb.org/t/p/original${result.backdropImgUrl}`
-//           : `${noPoster}`
-//       }
-//     ></Backdrop>
-//     <Content>
-//       <Cover
-//         bgImage={
-//           result
-//             ? `https://image.tmdb.org/t/p/original${result.posterImgUrl}`
-//             : `${noPoster}`
-//         }
-//       />
-//       <Data>
-//         <Title>{result.title ? result.title : result.original.name}</Title>
-//         <ItemContainer>
-//           <Item>{result.year}</Item>
-//           <Divider>▪</Divider>
-//           {/*구현 불가 <Item>
-//             {result.genres &&
-//               result.genres.map((genre, index) =>
-//                 index === result.genres.length - 1
-//                   ? genre.name
-//                   : `${genre.name}`
-//               )}
-//           </Item> */}
-//           {/* 구현 불가
-//           <Item>{result.runtime} min</Item>
-//           <Divider>▪</Divider> */}
-//         </ItemContainer>
-//         <Overview>{result.overview}</Overview>
-//       </Data>
-//     </Content>
-//   </Container>
-// );
+const DetailPresenter = ({ result, loading, error }) =>
+  loading ? (
+    <Loader />
+  ) : (
+    <Container>
+      <Backdrop
+        bgImage={
+          result
+            ? `https://image.tmdb.org/t/p/original${result.backdrop_path}`
+            : `${noPoster}`
+        }
+      ></Backdrop>
+      <Content>
+        <Cover
+          bgImage={
+            result
+              ? `https://image.tmdb.org/t/p/original${result.poster_path}`
+              : `${noPoster}`
+          }
+        />
+        <Data>
+          <Title>{result.title ? result.title : result.original_title}</Title>
+          <ItemContainer>
+            <Item>
+              {result.release_date
+                ? result.release_date.substring(0, 4)
+                : result.first_air_date.substring(0, 4)}
+            </Item>
+            <Divider>▪</Divider>
+
+            <Item>
+              {result.runtime ? result.runtime : result.episode_run_time[0]} min
+            </Item>
+            <Divider>▪</Divider>
+
+            <Item>
+              {result.genres &&
+                result.genres.map((genre, index) =>
+                  index === result.genres.length - 1
+                    ? genre.name
+                    : `${genre.name} / `
+                )}
+            </Item>
+          </ItemContainer>
+          <Overview>{result.overview}</Overview>
+        </Data>
+      </Content>
+    </Container>
+  );
 
 DetailPresenter.propTypes = {
   result: PropTypes.object,

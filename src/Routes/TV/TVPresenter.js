@@ -21,13 +21,10 @@ const TVPresenter = ({ topRated, popular, airingToday, loading, error }) =>
             <Poster
               key={show.id}
               id={show.id}
-              backdropImgUrl={show.backdrop_path}
               posterImgUrl={show.poster_path}
               title={show.original_name}
               rating={show.vote_average}
               year={show.first_air_date?.substring(0, 4)}
-              genres={show.genres}
-              overiew={show.overiew}
               isMovie={false}
             />
           ))}
@@ -40,13 +37,10 @@ const TVPresenter = ({ topRated, popular, airingToday, loading, error }) =>
             <Poster
               key={show.id}
               id={show.id}
-              backdropImgUrl={show.backdrop_path}
               posterImgUrl={show.poster_path}
               title={show.original_name}
               rating={show.vote_average}
               year={show.first_air_date?.substring(0, 4)}
-              genres={show.genres}
-              overiew={show.overiew}
               isMovie={false}
             />
           ))}
@@ -59,13 +53,10 @@ const TVPresenter = ({ topRated, popular, airingToday, loading, error }) =>
             <Poster
               key={show.id}
               id={show.id}
-              backdropImgUrl={show.backdrop_path}
               posterImgUrl={show.poster_path}
               title={show.original_name}
               rating={show.vote_average}
               year={show.first_air_date?.substring(0, 4)}
-              genres={show.genres}
-              overiew={show.overiew}
               isMovie={false}
             />
           ))}
