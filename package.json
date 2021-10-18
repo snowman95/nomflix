@@ -33,7 +33,6 @@
     ]
   },
   "homepage" :"https://hopeful-mahavira-904bea.netlify.app/",
-  //  "https://snowman95.github.io/nomflix/",
   "browserslist": {
     "production": [
       ">0.2%",
