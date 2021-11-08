@@ -5,6 +5,7 @@ import Loader from "Components/Loader";
 import noPoster from "../../assets/noPosterSmall.jpg";
 import Helmet from "react-helmet";
 import Message from "Components/Message";
+import Video from "Components/Video";
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -46,8 +47,12 @@ const Cover = styled.div`
 const Data = styled.div`
   width: 70%;
   margin-left: 10ex;
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 1px solid whit;
 `;
 
+const Info = styled.div``;
 const Title = styled.h3`
   font-size: 32px;
   margin-bottom: 10px;
@@ -67,6 +72,20 @@ const Overview = styled.p`
   opacity: 0.7;
   line-height: 1.5;
   width: 50%;
+`;
+
+const Videos = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+`;
+
+const IMDBLinkButton = styled.button`
+  margin-top: 15px;
+  &:hover {
+    font-weight: 700;
+  }
+  border: none;
 `;
 
 const DetailPresenter = ({ result, loading, error }) => (
@@ -101,31 +120,52 @@ const DetailPresenter = ({ result, loading, error }) => (
             }
           />
           <Data>
-            <Title>{result.title ? result.title : result.original_title}</Title>
-            <ItemContainer>
-              <Item>
-                {result.release_date
-                  ? result.release_date.substring(0, 4)
-                  : result.first_air_date.substring(0, 4)}
-              </Item>
-              <Divider>▪</Divider>
+            <Info>
+              <Title>
+                {result.title ? result.title : result.original_title}
+              </Title>
+              <ItemContainer>
+                <Item>
+                  {result.release_date
+                    ? result.release_date.substring(0, 4)
+                    : result.first_air_date.substring(0, 4)}
+                </Item>
+                <Divider>▪</Divider>
 
-              <Item>
-                {result.runtime ? result.runtime : result.episode_run_time[0]}{" "}
-                min
-              </Item>
-              <Divider>▪</Divider>
+                <Item>
+                  {result.runtime ? result.runtime : result.episode_run_time[0]}{" "}
+                  min
+                </Item>
+                <Divider>▪</Divider>
 
-              <Item>
-                {result.genres &&
-                  result.genres.map((genre, index) =>
-                    index === result.genres.length - 1
-                      ? genre.name
-                      : `${genre.name} / `
-                  )}
-              </Item>
-            </ItemContainer>
-            <Overview>{result.overview}</Overview>
+                <Item>
+                  {result.genres &&
+                    result.genres.map((genre, index) =>
+                      index === result.genres.length - 1
+                        ? genre.name
+                        : `${genre.name} / `
+                    )}
+                </Item>
+              </ItemContainer>
+              <Overview>{result.overview}</Overview>
+
+              <IMDBLinkButton
+                onClick={() => {
+                  window.open(
+                    `https://www.imdb.com/title/${result.imdb_id}`,
+                    "_blank"
+                  );
+                }}
+              >
+                🎥Show more
+              </IMDBLinkButton>
+            </Info>
+
+            <Videos>
+              {result.videos?.results?.map((data) => (
+                <Video key={data.id} data={data} />
+              ))}
+            </Videos>
           </Data>
         </Content>
       </Container>

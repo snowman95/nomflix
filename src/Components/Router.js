@@ -17,13 +17,21 @@ export default () => (
     <>
       <Header />
       <Switch>
-        {/* Switch는 오직 하나의 Route난 Render하게 해줌 */}
+        {/* Switch는 오직 하나의 Route만 Render하게 해줌 */}
         <Route path="/" exact component={Home} />
         {/* exact 를 넣지않으면 tv로 시작하는 아무주소가 다 매칭됨 */}
         <Route path="/tv" exact component={TV} />
         <Route path="/search" exact component={Search} />
         <Route path="/movie/:id" exact component={Detail} />
         <Route path="/show/:id" exact component={Detail} />
+        <Route
+          path="https://www.imdb.com/title/:id"
+          exact
+          component={(id) => {
+            window.open(`https://www.imdb.com/title/${id}`, "_blank");
+          }}
+        />
+
         <Redirect from="*" to="/" />
         {/* 일치하는 주소가 하나도 없으면 Redirect 부분 작동  */}
       </Switch>
