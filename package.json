@@ -14,6 +14,7 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
+    "react-youtube": "^7.13.1",
     "styled-components": "^5.3.1",
     "styled-reset": "^4.3.4",
     "web-vitals": "^1.1.2"
@@ -23,8 +24,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy" : "gh-pages -d build",
-    "predeploy" : "npm run build"
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
   },
   "eslintConfig": {
     "extends": [
@@ -32,7 +33,7 @@
       "react-app/jest"
     ]
   },
-  "homepage" :"https://hopeful-mahavira-904bea.netlify.app/",
+  "homepage": "https://hopeful-mahavira-904bea.netlify.app/",
   "browserslist": {
     "production": [
       ">0.2%",
