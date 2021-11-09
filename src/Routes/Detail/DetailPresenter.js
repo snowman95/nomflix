@@ -5,7 +5,7 @@ import Loader from "Components/Loader";
 import noPoster from "../../assets/noPosterSmall.jpg";
 import Helmet from "react-helmet";
 import Message from "Components/Message";
-import Video from "Components/Video";
+import Slider from "Components/Slider";
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -49,7 +49,6 @@ const Data = styled.div`
   margin-left: 10ex;
   display: grid;
   grid-template-columns: 1fr;
-  border: 1px solid whit;
 `;
 
 const Info = styled.div``;
@@ -75,9 +74,9 @@ const Overview = styled.p`
 `;
 
 const Videos = styled.div`
-  display: flex;
+  /* display: flex;
   justify-content: space-between;
-  gap: 10px;
+  gap: 10px; */
 `;
 
 const IMDBLinkButton = styled.button`
@@ -160,11 +159,8 @@ const DetailPresenter = ({ result, loading, error }) => (
                 🎥Show more
               </IMDBLinkButton>
             </Info>
-
             <Videos>
-              {result.videos?.results?.map((data) => (
-                <Video key={data.id} data={data} />
-              ))}
+              <Slider data={result?.videos?.results} />
             </Videos>
           </Data>
         </Content>

@@ -24,14 +24,6 @@ export default () => (
         <Route path="/search" exact component={Search} />
         <Route path="/movie/:id" exact component={Detail} />
         <Route path="/show/:id" exact component={Detail} />
-        <Route
-          path="https://www.imdb.com/title/:id"
-          exact
-          component={(id) => {
-            window.open(`https://www.imdb.com/title/${id}`, "_blank");
-          }}
-        />
-
         <Redirect from="*" to="/" />
         {/* 일치하는 주소가 하나도 없으면 Redirect 부분 작동  */}
       </Switch>
