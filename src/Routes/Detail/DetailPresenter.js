@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Loader from "Components/Loader";
@@ -6,6 +6,8 @@ import noPoster from "../../assets/noPosterSmall.jpg";
 import Helmet from "react-helmet";
 import Message from "Components/Message";
 import Slider from "Components/Slider";
+import ProductionCompany from "Components/ProductionCompany";
+import ProductionCountry from "Components/ProductionCountry";
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -72,102 +74,127 @@ const Overview = styled.p`
   line-height: 1.5;
   width: 50%;
 `;
-
-const Videos = styled.div`
-  /* display: flex;
-  justify-content: space-between;
-  gap: 10px; */
-`;
-
-const IMDBLinkButton = styled.button`
+const ButtonContainer = styled.div`
+  gap: 15px;
   margin-top: 15px;
-  &:hover {
-    font-weight: 700;
-  }
   border: none;
 `;
+const Button = styled.button`
+  background-color: black;
+  color: white;
+  border: none;
+  &:hover {
+    font-weight: 700;
+    border: 1px solid white;
+  }
+`;
 
-const DetailPresenter = ({ result, loading, error }) => (
-  <>
-    <Helmet>
-      <title>Loading | Nomflix</title>
-    </Helmet>
-    {loading ? (
-      <Loader />
-    ) : error ? (
-      <Message color="#e74c3c" text={error} />
-    ) : (
-      <Container>
-        <Helmet>
-          <title>
-            {result.title ? result.title : result.original_title} | Nomflix
-          </title>
-        </Helmet>
-        <Backdrop
-          bgImage={
-            result
-              ? `https://image.tmdb.org/t/p/original${result.backdrop_path}`
-              : `${noPoster}`
-          }
-        ></Backdrop>
-        <Content>
-          <Cover
+const DetailPresenter = ({ result, loading, error }) => {
+  const [showProductionCompany, setShowProductionCompany] = useState(false);
+  const [showProductionCountry, setShowProductionCountry] = useState(false);
+  return (
+    <>
+      <Helmet>
+        <title>Loading | Nomflix</title>
+      </Helmet>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message color="#e74c3c" text={error} />
+      ) : (
+        <Container>
+          <Helmet>
+            <title>
+              {result.title ? result.title : result.original_title} | Nomflix
+            </title>
+          </Helmet>
+          <Backdrop
             bgImage={
               result
-                ? `https://image.tmdb.org/t/p/original${result.poster_path}`
+                ? `https://image.tmdb.org/t/p/original${result.backdrop_path}`
                 : `${noPoster}`
             }
-          />
-          <Data>
-            <Info>
-              <Title>
-                {result.title ? result.title : result.original_title}
-              </Title>
-              <ItemContainer>
-                <Item>
-                  {result.release_date
-                    ? result.release_date.substring(0, 4)
-                    : result.first_air_date.substring(0, 4)}
-                </Item>
-                <Divider>▪</Divider>
+          ></Backdrop>
+          <Content>
+            <Cover
+              bgImage={
+                result
+                  ? `https://image.tmdb.org/t/p/original${result.poster_path}`
+                  : `${noPoster}`
+              }
+            />
+            <Data>
+              <Info>
+                <Title>
+                  {result.title ? result.title : result.original_title}
+                </Title>
+                <ItemContainer>
+                  <Item>
+                    {result.release_date
+                      ? result.release_date.substring(0, 4)
+                      : result.first_air_date.substring(0, 4)}
+                  </Item>
+                  <Divider>▪</Divider>
 
-                <Item>
-                  {result.runtime ? result.runtime : result.episode_run_time[0]}{" "}
-                  min
-                </Item>
-                <Divider>▪</Divider>
+                  <Item>
+                    {result.runtime
+                      ? result.runtime
+                      : result.episode_run_time[0]}{" "}
+                    min
+                  </Item>
+                  <Divider>▪</Divider>
 
-                <Item>
-                  {result.genres &&
-                    result.genres.map((genre, index) =>
-                      index === result.genres.length - 1
-                        ? genre.name
-                        : `${genre.name} / `
-                    )}
-                </Item>
-              </ItemContainer>
-              <Overview>{result.overview}</Overview>
-
-              <IMDBLinkButton
-                onClick={() => {
-                  window.open(
-                    `https://www.imdb.com/title/${result.imdb_id}`,
-                    "_blank"
-                  );
-                }}
-              >
-                🎥Show more
-              </IMDBLinkButton>
-            </Info>
-            <Videos>
+                  <Item>
+                    {result.genres &&
+                      result.genres.map((genre, index) =>
+                        index === result.genres.length - 1
+                          ? genre.name
+                          : `${genre.name} / `
+                      )}
+                  </Item>
+                </ItemContainer>
+                <Overview>{result.overview}</Overview>
+                <ButtonContainer>
+                  <Button
+                    onClick={() => {
+                      window.open(
+                        `https://www.imdb.com/title/${result.imdb_id}`,
+                        "_blank"
+                      );
+                    }}
+                  >
+                    🎥Show more
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      setShowProductionCompany((current) => !current)
+                    }
+                  >
+                    🏢Production Company
+                  </Button>
+                  <Button
+                    onClick={() =>
+                      setShowProductionCountry((current) => !current)
+                    }
+                  >
+                    🏳‍🌈Production Country
+                  </Button>
+                </ButtonContainer>
+                {showProductionCompany && (
+                  <ProductionCompany data={result.production_companies} />
+                )}
+                {showProductionCountry && (
+                  <ProductionCountry data={result.production_countries} />
+                )}
+              </Info>
               <Slider data={result?.videos?.results} />
-            </Videos>
-          </Data>
-        </Content>
-      </Container>
-    )}
-  </>
-);
+            </Data>
+          </Content>
+        </Container>
+      )}
+    </>
+  );
+};
 
 DetailPresenter.propTypes = {
   result: PropTypes.object,
