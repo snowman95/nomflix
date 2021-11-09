@@ -8,6 +8,7 @@ import Message from "Components/Message";
 import Slider from "Components/Slider";
 import ProductionCompany from "Components/ProductionCompany";
 import ProductionCountry from "Components/ProductionCountry";
+import Season from "Components/Season";
 
 const Container = styled.div`
   height: calc(100vh - 50px);
@@ -87,11 +88,15 @@ const Button = styled.button`
     font-weight: 700;
     border: 1px solid white;
   }
+  background-color: ${(props) => (props.active ? "white" : "black")};
+  color: ${(props) => (props.active ? "black" : "white")};
 `;
 
-const DetailPresenter = ({ result, loading, error }) => {
+const DetailPresenter = ({ result, isMovie, loading, error }) => {
   const [showProductionCompany, setShowProductionCompany] = useState(false);
   const [showProductionCountry, setShowProductionCountry] = useState(false);
+  const [showSeasons, setshowSeasons] = useState(false);
+  console.log(result);
   return (
     <>
       <Helmet>
@@ -104,9 +109,7 @@ const DetailPresenter = ({ result, loading, error }) => {
       ) : (
         <Container>
           <Helmet>
-            <title>
-              {result.title ? result.title : result.original_title} | Nomflix
-            </title>
+            <title>{result.title ? result.title : result.name} | Nomflix</title>
           </Helmet>
           <Backdrop
             bgImage={
@@ -125,14 +128,12 @@ const DetailPresenter = ({ result, loading, error }) => {
             />
             <Data>
               <Info>
-                <Title>
-                  {result.title ? result.title : result.original_title}
-                </Title>
+                <Title>{result.title ? result.title : result.name}</Title>
                 <ItemContainer>
                   <Item>
                     {result.release_date
-                      ? result.release_date.substring(0, 4)
-                      : result.first_air_date.substring(0, 4)}
+                      ? result.release_date.split("-")[0]
+                      : result.first_air_date.split("-")[0]}
                   </Item>
                   <Divider>▪</Divider>
 
@@ -155,17 +156,20 @@ const DetailPresenter = ({ result, loading, error }) => {
                 </ItemContainer>
                 <Overview>{result.overview}</Overview>
                 <ButtonContainer>
+                  {isMovie === true && (
+                    <Button
+                      onClick={() => {
+                        window.open(
+                          `https://www.imdb.com/title/${result.imdb_id}`,
+                          "_blank"
+                        );
+                      }}
+                    >
+                      🎥Show more
+                    </Button>
+                  )}
                   <Button
-                    onClick={() => {
-                      window.open(
-                        `https://www.imdb.com/title/${result.imdb_id}`,
-                        "_blank"
-                      );
-                    }}
-                  >
-                    🎥Show more
-                  </Button>
-                  <Button
+                    active={showProductionCompany}
                     onClick={() =>
                       setShowProductionCompany((current) => !current)
                     }
@@ -173,18 +177,31 @@ const DetailPresenter = ({ result, loading, error }) => {
                     🏢Production Company
                   </Button>
                   <Button
+                    active={showProductionCountry}
                     onClick={() =>
                       setShowProductionCountry((current) => !current)
                     }
                   >
                     🏳‍🌈Production Country
                   </Button>
+
+                  {isMovie === false && (
+                    <Button
+                      active={showSeasons}
+                      onClick={() => setshowSeasons((current) => !current)}
+                    >
+                      ➕Series
+                    </Button>
+                  )}
                 </ButtonContainer>
                 {showProductionCompany && (
                   <ProductionCompany data={result.production_companies} />
                 )}
                 {showProductionCountry && (
                   <ProductionCountry data={result.production_countries} />
+                )}
+                {isMovie === false && showSeasons && (
+                  <Season data={result.seasons} />
                 )}
               </Info>
               <Slider data={result?.videos?.results} />
